@@ -1,18 +1,22 @@
 pipeline {
-    agent {
-        docker { image 'node:7-alpine' }
-    }
+   agent {
+        
+            docker { image 'node:7-alpine' }
+        
+   }
+
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
+                echo 'Building..cypress test suite'
                 sh 'node --version'
             }
         }
-    }
-    stage('Test') {
+        stage('Test') {
             steps {
                 echo 'Testing..cypress test suite'
-                
+                sh 'npm install'
+                sh 'npm run cy:run'
             }
         }
         stage('Deploy') {
@@ -20,4 +24,6 @@ pipeline {
                 echo 'Deploying....the application after testing'
             }
         }
+    }
+    
 }
